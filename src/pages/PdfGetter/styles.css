@@ -1,0 +1,38 @@
+.pdfGetter-container {
+    width: 100%;
+    max-width: 1120px;
+    height: 100vh;
+    margin: 0 auto;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pdfGetter-container section {
+    width: 100%;
+    padding: 96px;
+}
+
+.pdfGetter-container section h1 {
+    color: #36352b;
+    margin-bottom: 24px;
+}
+
+.pdfGetter-container section form {
+    width: 100%;
+}
+
+.pdfGetter-container section form select {
+    margin-bottom: 4px;
+}
+
+.pdfGetter-container .pdf-visualizer {
+    width: 100%;
+    max-width: 40vw;
+    padding: 96px;
+    height: 80vh;
+    background: white;
+    border-radius: 4px;
+    overflow: scroll scroll;
+}
