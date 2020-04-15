@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
-import { Document } from 'react-pdf';
-
 import { parseStringPromise } from 'xml2js';
 
 import api from '../../services/api';
-import pdfjs from '../../services/pdfjs';
 
 import './styles.css';
 
 export default function PdfGetter() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [url, setUrl] = useState('');
     const [jsonPayLoad, setJsonPayLoad] = useState('');
-    const [pdf, setPdf] = useState(new File(['press f to pay respects'], 'pdfPreview.pdf', { type: 'application/pdf' }));
+    const [pdf, setPdf] = useState('');
+
+    function handleSelect(e) {
+        setUrl(e.target.value);
+
+        let submitButton = document.getElementById('Enviar');
+        if(e.target.value !== "") {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+
+    }
 
     function handlePdfRequest(e) {
         e.preventDefault();
@@ -20,12 +31,12 @@ export default function PdfGetter() {
         submitButton.disabled = true;
 
         let formData = new FormData();
-        formData.append("jsonPayLoad", "{\n  \"NumeroProposta\": \"123456\",\n  \"idTemplate\": \"CDA0301\",\n  \"ANS_Plano\": 482566197,\n  \"ProponenteTitular\": {\n    \"DPS\": {\n      \"TipoOrientacaoMedica\": \"SERORIENTADOPORMEDICOINDICADO\"\n    }\n  }\n} ");
+        formData.append("jsonPayLoad", jsonPayLoad);
 
         api.post(`${url}`, formData, {
             auth: {
-                username: 'administrator',
-                password: 'password'
+                username: username,
+                password: password
             },
             headers: {
                 contentType: 'multipart/form-data',
@@ -35,26 +46,63 @@ export default function PdfGetter() {
                 submitButton.disabled = false;
 
                 const { result } = await parseStringPromise(response.data);
-                console.log(atob(result.strFile[0]));
-                
-                setPdf(new File([new ArrayBuffer(result.strFile[0])], 'pdfPreview.pdf', { type: 'application/pdf' }));
+                //console.log(result.strFile[0]);
+
+                let bin = atob(result.strFile[0]);
+                console.log('File Size:', Math.round(bin.length / 1024), 'KB');
+                console.log('PDF Version:', bin.match(/^.PDF-([0-9.]+)/)[1]);
+                console.log('Create Date:', bin.match(/<xmp:CreateDate>(.+?)<\/xmp:CreateDate>/)[1]);
+                console.log('Modify Date:', bin.match(/<xmp:ModifyDate>(.+?)<\/xmp:ModifyDate>/)[1]);
+                console.log('Creator Tool:', bin.match(/<xmp:CreatorTool>(.+?)<\/xmp:CreatorTool>/)[1]);
+
+                setPdf(`data:application/pdf;base64,${result.strFile[0]}`);
+
+                let link = document.createElement('a');
+                link.id = 'pdfDL';
+                link.className = 'button';
+                link.innerHTML = 'Download PDF file';
+                link.download = `file${JSON.parse(jsonPayLoad).idTemplate}.pdf`;
+                link.href = pdf;
+
+                let oldLink = document.querySelector('#pdfDL');
+                if(oldLink !== null)
+                    oldLink.remove();
+
+                document.querySelector('#pdfViewer').appendChild(link);
             })
-            .catch(err => console.error(err)); 
+            .catch(err => {
+                console.error(err);
+
+                submitButton.disabled = false;
+            }); 
         
     }
 
     return (
         <div className="pdfGetter-container">
             <section>
-                <h1>Informe a jsonPayload do pdf:</h1>
+                <h1>Informe os dados para acesso ao PDF:</h1>
 
                 <form onSubmit={handlePdfRequest}>
-                    <select onChange={e => setUrl(e.target.value)}>
+                    <div className="input-items">
+                        <input
+                            placeholder="Username"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)} 
+                        />
+
+                        <input
+                            placeholder="Password"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)} 
+                        />
+                    </div>
+
+                    <select onChange={handleSelect}>
                         <option value="">Selecione uma opção...</option>
                         <option value="CriarDPS:1.7">DPS</option>
-                        <option value="GerarSoDPS-PDF:1.7">DPS (PDF)</option>
                         <option value="CriarProposta:1.7">Proposta</option>
-                        <option value="GerarSoPDF:1.7">Propota (PDF)</option>
                     </select>
 
                     <textarea
@@ -63,12 +111,12 @@ export default function PdfGetter() {
                         onChange={e => setJsonPayLoad(e.target.value)}
                     />
 
-                    <button id='Enviar' className="button" type="submit">Enviar</button>
+                    <button id='Enviar' className="button" type="submit" disabled={true}>Enviar</button>
                 </form>
             </section>
 
-            <section>
-                <Document file={pdf} />
+            <section id="pdfViewer">
+                <object title="PdfView" type="application/pdf" data={pdf} />
             </section>
         </div>
     );

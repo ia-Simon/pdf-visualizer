@@ -1,6 +1,6 @@
 .pdfGetter-container {
     width: 100%;
-    max-width: 1120px;
+    max-width: 1200px;
     height: 100vh;
     margin: 0 auto;
     
@@ -23,16 +23,23 @@
     width: 100%;
 }
 
-.pdfGetter-container section form select {
-    margin-bottom: 4px;
+.pdfGetter-container section form .input-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
 }
 
-.pdfGetter-container .pdf-visualizer {
+.pdfGetter-container section form .input-items input:first-of-type {
+    margin-right: 8px;
+}
+
+.pdfGetter-container section form select {
+    margin-bottom: 8px;
+}
+
+.pdfGetter-container section object {
     width: 100%;
-    max-width: 40vw;
-    padding: 96px;
-    height: 80vh;
-    background: white;
-    border-radius: 4px;
-    overflow: scroll scroll;
+    height: 70vh;
+    border-radius: 8px;
 }
