@@ -83,7 +83,7 @@ export default function PdfGetter() {
                 link.className = 'button';
                 link.innerHTML = 'Download PDF file';
                 link.download = `file${JSON.parse(jsonPayLoad).idTemplate}.pdf`;
-                link.href = pdf;
+                link.href = `data:application/octet-stream;base64,${result.strFile[0]}`;
 
                 let oldLink = document.querySelector('#pdfDL');
                 if (oldLink !== null)
