@@ -11,7 +11,7 @@
 
 .pdfGetter-container section {
     width: 100%;
-    padding: 96px;
+    padding: 72px;
 }
 
 .pdfGetter-container section h1 {
@@ -23,19 +23,34 @@
     width: 100%;
 }
 
-.pdfGetter-container section form .input-items {
+.pdfGetter-container section form .input-auth {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 8px;
 }
 
-.pdfGetter-container section form .input-items input:first-of-type {
+.pdfGetter-container section form .input-auth input:first-of-type {
     margin-right: 8px;
 }
-
 .pdfGetter-container section form select {
     margin-bottom: 8px;
+}
+
+.pdfGetter-container section form .input-conf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pdfGetter-container section form .input-conf #Conf {
+    display: flex;
+    margin-left: 8px;
+    width: 25%;
+}
+
+.pdfGetter-container section form .input-conf #Conf svg {
+    margin: auto;
 }
 
 .pdfGetter-container section object {

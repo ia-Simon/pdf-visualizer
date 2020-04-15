@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FiSettings } from 'react-icons/fi'
 import { parseStringPromise } from 'xml2js';
 
 import api from '../../services/api';
@@ -11,23 +12,43 @@ export default function PdfGetter() {
     const [url, setUrl] = useState('');
     const [jsonPayLoad, setJsonPayLoad] = useState('');
     const [pdf, setPdf] = useState('');
+    const [confState, setConfState] = useState(true);
 
     function handleSelect(e) {
         setUrl(e.target.value);
 
-        let submitButton = document.getElementById('Enviar');
-        if(e.target.value !== "") {
+        let submitButton = document.querySelector('#Enviar');
+        if (e.target.value !== "") {
             submitButton.disabled = false;
         } else {
             submitButton.disabled = true;
         }
+    }
 
+    function handleConf(e) {
+        let confButton = document.querySelector('#Conf');
+        let inputAuth = document.querySelector('.input-auth');
+        let select = document.querySelector('#APIselect');
+
+        if(confState) {
+            confButton.style.background = '#808080';
+            setConfState(false);
+
+            inputAuth.style.display = 'none';
+            select.style.display = 'none';
+        } else {
+            confButton.style.background = '#e0b320';
+            setConfState(true);
+
+            inputAuth.style.display = 'flex';
+            select.style.display = 'block';
+        }
     }
 
     function handlePdfRequest(e) {
         e.preventDefault();
 
-        let submitButton = document.getElementById('Enviar');
+        let submitButton = document.querySelector('#Enviar');
         submitButton.disabled = true;
 
         let formData = new FormData();
@@ -65,7 +86,7 @@ export default function PdfGetter() {
                 link.href = pdf;
 
                 let oldLink = document.querySelector('#pdfDL');
-                if(oldLink !== null)
+                if (oldLink !== null)
                     oldLink.remove();
 
                 document.querySelector('#pdfViewer').appendChild(link);
@@ -74,8 +95,8 @@ export default function PdfGetter() {
                 console.error(err);
 
                 submitButton.disabled = false;
-            }); 
-        
+            });
+
     }
 
     return (
@@ -84,22 +105,22 @@ export default function PdfGetter() {
                 <h1>Informe os dados para acesso ao PDF:</h1>
 
                 <form onSubmit={handlePdfRequest}>
-                    <div className="input-items">
+                    <div className="input-auth">
                         <input
                             placeholder="Username"
                             value={username}
-                            onChange={e => setUsername(e.target.value)} 
+                            onChange={e => setUsername(e.target.value)}
                         />
 
                         <input
                             placeholder="Password"
                             type="password"
                             value={password}
-                            onChange={e => setPassword(e.target.value)} 
+                            onChange={e => setPassword(e.target.value)}
                         />
                     </div>
 
-                    <select onChange={handleSelect}>
+                    <select id="APIselect" onChange={handleSelect}>
                         <option value="">Selecione uma opção...</option>
                         <option value="CriarDPS:1.7">DPS</option>
                         <option value="CriarProposta:1.7">Proposta</option>
@@ -111,7 +132,12 @@ export default function PdfGetter() {
                         onChange={e => setJsonPayLoad(e.target.value)}
                     />
 
-                    <button id='Enviar' className="button" type="submit" disabled={true}>Enviar</button>
+                    <div className="input-conf">
+                        <button id="Enviar" className="button" type="submit" disabled={true}>Enviar</button>
+                        <span id="Conf" className="button" onClick={handleConf}>
+                            <FiSettings size={20} color="#FFF" />
+                        </span>
+                    </div>
                 </form>
             </section>
 

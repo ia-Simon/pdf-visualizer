@@ -36,7 +36,7 @@ form select {
 form textarea {
     width: 100%;
     resize: vertical;
-    min-height: 180px;
+    min-height: 240px;
     color: #333;
     border: 1px solid #dcdce6;
     border-radius: 8px;
