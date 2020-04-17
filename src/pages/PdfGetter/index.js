@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiSettings } from 'react-icons/fi'
+import { FiSettings, FiMaximize2, FiDelete } from 'react-icons/fi'
 import { parseStringPromise } from 'xml2js';
 
 import api from '../../services/api';
@@ -25,12 +25,12 @@ export default function PdfGetter() {
         }
     }
 
-    function handleConf(e) {
+    function handleConf() {
         let confButton = document.querySelector('#Conf');
         let inputAuth = document.querySelector('.input-auth');
         let select = document.querySelector('#APIselect');
 
-        if(confState) {
+        if (confState) {
             confButton.style.background = '#808080';
             setConfState(false);
 
@@ -43,6 +43,17 @@ export default function PdfGetter() {
             inputAuth.style.display = 'flex';
             select.style.display = 'block';
         }
+    }
+
+    function handlePopUp() {
+        document.querySelector('[title=PdfPopUp]').style.display = 'block';
+        document.querySelector('#Close').style.display = 'flex';
+        
+    }
+    
+    function handlePopUpClose() {
+        document.querySelector('[title=PdfPopUp]').style.display = 'none';
+        document.querySelector('#Close').style.display = 'none';
     }
 
     function handlePdfRequest(e) {
@@ -78,6 +89,8 @@ export default function PdfGetter() {
 
                 setPdf(`data:application/pdf;base64,${result.strFile[0]}`);
 
+                document.querySelector('#Expand').style.display = 'flex';
+
                 let link = document.createElement('a');
                 link.id = 'pdfDL';
                 link.className = 'button';
@@ -89,7 +102,7 @@ export default function PdfGetter() {
                 if (oldLink !== null)
                     oldLink.remove();
 
-                document.querySelector('#pdfViewer').appendChild(link);
+                document.querySelector('.pdf-conf').appendChild(link);
             })
             .catch(err => {
                 console.error(err);
@@ -135,14 +148,25 @@ export default function PdfGetter() {
                     <div className="input-conf">
                         <button id="Enviar" className="button" type="submit" disabled={true}>Enviar</button>
                         <span id="Conf" className="button" onClick={handleConf}>
-                            <FiSettings size={20} color="#FFF" />
+                            <FiSettings size={24} color="#FFF" />
                         </span>
                     </div>
                 </form>
             </section>
 
+            <span id="Close" className="button" onClick={handlePopUpClose}>
+                <FiDelete size={20} color="#FFF" />
+            </span>
+            <object title="PdfPopUp" type="application/pdf" data={pdf} />
+
             <section id="pdfViewer">
                 <object title="PdfView" type="application/pdf" data={pdf} />
+
+                <div className="pdf-conf">
+                    <span id="Expand" className="button" onClick={handlePopUp}>
+                        <FiMaximize2 size={20} color="#FFF" />
+                    </span>
+                </div>
             </section>
         </div>
     );
