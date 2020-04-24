@@ -46,7 +46,12 @@ export default function PdfGetter() {
     }
 
     function handlePopUp() {
-        document.querySelector('[title=PdfPopUp]').style.display = 'block';
+        let pdfPopUp = document.querySelector('[title=PdfPopUp]');
+        pdfPopUp.style.display = 'block';
+        pdfPopUp.data = undefined;
+        setTimeout(() => {
+             pdfPopUp.data = pdf;
+        }, 400);
         document.querySelector('#Close').style.display = 'flex';
         
     }
@@ -64,7 +69,7 @@ export default function PdfGetter() {
 
         let formData = new FormData();
         formData.append("jsonPayLoad", jsonPayLoad);
-
+        
         api.post(`${url}`, formData, {
             auth: {
                 username: username,
@@ -135,8 +140,8 @@ export default function PdfGetter() {
 
                     <select id="APIselect" onChange={handleSelect}>
                         <option value="">Selecione uma opção...</option>
-                        <option value="CriarDPS:1.7">DPS</option>
-                        <option value="CriarProposta:1.7">Proposta</option>
+                        <option value="CriarDPS:1.8">DPS</option>
+                        <option value="CriarProposta:1.8">Proposta</option>
                     </select>
 
                     <textarea
