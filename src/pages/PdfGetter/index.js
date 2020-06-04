@@ -140,8 +140,8 @@ export default function PdfGetter() {
 
                     <select id="APIselect" onChange={handleSelect}>
                         <option value="">Selecione uma opção...</option>
-                        <option value="CriarDPS:1.7">DPS</option>
-                        <option value="CriarProposta:1.7">Proposta</option>
+                        <option value="CriarDPS">DPS</option>
+                        <option value="CriarProposta">Proposta</option>
                     </select>
 
                     <textarea

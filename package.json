@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://100.21.154.224:8080/rest/services/proposta/ws",
+  "proxy": "https://100.21.154.224:8080/rest/services/proposta/ws",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
