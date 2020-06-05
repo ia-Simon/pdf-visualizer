@@ -37,7 +37,6 @@ form textarea {
     width: 100%;
     resize: vertical;
     min-height: 240px;
-    max-height: 65vh;
     color: #333;
     border: 1px solid #dcdce6;
     border-radius: 8px;
@@ -53,7 +52,7 @@ form textarea {
     border-radius: 8px;
     color: #FFF;
     font-weight: 700;
-    margin-top: 20px;
+    margin-top: 16px;
     display: inline-block;
     text-align: center;
     text-decoration: none;
