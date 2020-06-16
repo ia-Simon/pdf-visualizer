@@ -4,9 +4,11 @@
     height: 90vh;
     margin: 5vh auto;
 
-    box-shadow: 5px 5px 8px 2px #404040;
+    box-shadow: 5px 5px 8px 2px rgba(40,40,40,0.7);
     border-radius: 8px;
     position: relative;
+
+    background: rgba(200,200,200,0.3);
     
     display: flex;
     align-items: center;
