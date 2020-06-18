@@ -142,6 +142,7 @@ export default function PdfGetter() {
                         <option value="">Selecione uma opção...</option>
                         <option value="CriarDPS">DPS</option>
                         <option value="CriarProposta">Proposta</option>
+                        <option value="CriarPropostaVD:1.7">Proposta VD</option>
                     </select>
 
                     <textarea
