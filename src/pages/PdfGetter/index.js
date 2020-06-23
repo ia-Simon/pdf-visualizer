@@ -86,6 +86,11 @@ export default function PdfGetter() {
             .then(async response => {
                 submitButton.disabled = false;
 
+                if(!(/^<result><strResult>200/.test(response.data))) {
+                    console.log(response.data);
+                    return;
+                }
+
                 const { result } = await parseStringPromise(response.data);
                 //console.log(result.strFile[0]);
 
