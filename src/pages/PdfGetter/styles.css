@@ -78,6 +78,7 @@
 
 .pdfGetter-container section form textarea {
     max-height: 55vh;
+    margin-top: 8px;
 }
 
 .pdfGetter-container section form .input-conf {

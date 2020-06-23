@@ -18,29 +18,29 @@ button {
 
 form input {
     width: 100%;
-    height: 60px;
+    height: 50px;
     color: #333;
     border: 1px solid #dcdce6;
-    border-radius: 8px;
-    padding: 0 24px;
+    border-radius: 6px;
+    padding: 0 16px;
 }
 
 form select {
     width: 100%;
-    height: 60px;
+    height: 50px;
     color: #333;
     border: 1px solid #dcdce6;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 0 24px;
 }
 
 form textarea {
     width: 100%;
-    resize: vertical;
-    min-height: 240px;
+    resize: none;
+    min-height: 250px;
     color: #333;
     border: 1px solid #dcdce6;
-    border-radius: 8px;
+    border-radius: 6px;
     padding: 16px;
     line-height: 16px;
 }

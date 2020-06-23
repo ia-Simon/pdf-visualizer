@@ -29,6 +29,7 @@ export default function PdfGetter() {
         let confButton = document.querySelector('#Conf');
         let inputAuth = document.querySelector('.input-auth');
         let select = document.querySelector('#APIselect');
+        let textArea = document.querySelector('#dataTextArea');
 
         if (confState) {
             confButton.style.background = '#808080';
@@ -36,12 +37,15 @@ export default function PdfGetter() {
 
             inputAuth.style.display = 'none';
             select.style.display = 'none';
+            textArea.style.resize = 'vertical';
         } else {
             confButton.style.background = '#e0b320';
             setConfState(true);
 
             inputAuth.style.display = 'flex';
             select.style.display = 'block';
+            textArea.style.resize = 'none';
+            textArea.style.height = '250px';            
         }
     }
 
@@ -146,6 +150,7 @@ export default function PdfGetter() {
                     </select>
 
                     <textarea
+                        id="dataTextArea"
                         placeholder="{ data }"
                         value={jsonPayLoad}
                         onChange={e => setJsonPayLoad(e.target.value)}
