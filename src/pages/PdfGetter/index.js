@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { FiSettings, FiMaximize2, FiDelete } from 'react-icons/fi'
+import { FiSettings, FiMaximize2, FiDelete, FiX } from 'react-icons/fi'
+
+import beautify from 'xml-beautifier';
 import { parseStringPromise } from 'xml2js';
 
 import api from '../../services/api';
@@ -65,6 +67,10 @@ export default function PdfGetter() {
         document.querySelector('#Close').style.display = 'none';
     }
 
+    function handleErrorClose() {
+        document.querySelector('div.errorMessage').style.display = 'none';
+    }
+
     function handlePdfRequest(e) {
         e.preventDefault();
 
@@ -86,10 +92,7 @@ export default function PdfGetter() {
             .then(async response => {
                 submitButton.disabled = false;
 
-                if(!(/^<result><strResult>200/.test(response.data))) {
-                    console.log(response.data);
-                    return;
-                }
+                if(!(/^<result><strResult>200/.test(response.data))) throw response.data;
 
                 const { result } = await parseStringPromise(response.data);
                 //console.log(result.strFile[0]);
@@ -113,13 +116,43 @@ export default function PdfGetter() {
                 link.href = `data:application/octet-stream;base64,${result.strFile[0]}`;
 
                 let oldLink = document.querySelector('#pdfDL');
-                if (oldLink !== null)
-                    oldLink.remove();
+                if (oldLink !== null) oldLink.remove();
 
                 document.querySelector('.pdf-conf').appendChild(link);
             })
             .catch(err => {
-                console.error(err);
+                try {
+                    err = beautify(err);
+
+                    err = err.split("");
+                    for(let i = 0, nonEnterCount = 0; i < err.length; i++) {
+                        let char = err[i];
+
+                        if(char !== '\n' && nonEnterCount*7 > (window.innerWidth > 1120 ? 1120*0.4:window.innerWidth*0.4)) {
+                            err.splice(i, 0, '\n');
+                            nonEnterCount = 0;
+                        } else if(char === '\n') {
+                            nonEnterCount = 0;
+                            continue;
+                        }
+
+                        nonEnterCount++;
+                    }
+                    err = err.join("");
+
+                    let errorText = document.createElement('pre');
+                    errorText.id = 'errorTxt';
+                    errorText.appendChild(document.createTextNode(err));
+
+                    let oldErrorText = document.querySelector('#errorTxt');
+                    if (oldErrorText !== null) oldErrorText.remove();
+
+                    let errorMessage = document.querySelector('div.errorMessage');
+                    errorMessage.appendChild(errorText);
+                    errorMessage.style.display = 'block';
+                } catch (e) {
+                    console.error(err);
+                }
 
                 submitButton.disabled = false;
             });
@@ -176,6 +209,12 @@ export default function PdfGetter() {
             <object title="PdfPopUp" type="application/pdf" data={pdf} />
 
             <section id="pdfViewer">
+                <div className="errorMessage">
+                    <span id="errorClose" className="button" onClick={handleErrorClose}>
+                        <FiX size={20} color="#EEE"/>
+                    </span>
+                </div>
+
                 <object title="PdfView" type="application/pdf" data={pdf} />
 
                 <div className="pdf-conf">
