@@ -151,6 +151,16 @@ export default function PdfGetter() {
                     errorMessage.appendChild(errorText);
                     errorMessage.style.display = 'block';
                 } catch (e) {
+                    let errorText = document.createElement('pre');
+                    errorText.id = 'errorTxt';
+                    errorText.appendChild(document.createTextNode("An error has occured, please check the\nconsole for further information."));
+
+                    let oldErrorText = document.querySelector('#errorTxt');
+                    if (oldErrorText !== null) oldErrorText.remove();
+
+                    let errorMessage = document.querySelector('div.errorMessage');
+                    errorMessage.appendChild(errorText);
+                    errorMessage.style.display = 'flex';
                     console.error(err);
                 }
 
@@ -210,6 +220,7 @@ export default function PdfGetter() {
 
             <section id="pdfViewer">
                 <div className="errorMessage">
+                    <h3>Erro na geração do PDF</h3>
                     <span id="errorClose" className="button" onClick={handleErrorClose}>
                         <FiX size={20} color="#EEE"/>
                     </span>

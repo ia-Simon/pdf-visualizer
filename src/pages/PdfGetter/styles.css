@@ -102,8 +102,10 @@
 
 .pdfGetter-container #pdfViewer .errorMessage {
     display: none;
+    flex-direction: column;
     width: 80%;
     min-height: 200px;
+    padding: 16px;
     
     background: rgba(240, 0, 0, 0.6);
     border-radius: 8px;
@@ -114,18 +116,24 @@
     right: 10%;
 }
 
+.pdfGetter-container #pdfViewer .errorMessage h3 {
+    margin-top: -8px;
+    margin-bottom: 8px;
+    color: #222;
+}
+
 .pdfGetter-container #pdfViewer .errorMessage #errorTxt {
     width: 100%;
-    margin: 20px;
 
     font: 400 14px sans-serif;
     color: #222;
 }
 
 .pdfGetter-container #pdfViewer .errorMessage #errorClose {
-    width: 48px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     margin-top: 0;
+    display: flex;
 
     background: rgba(0, 0, 0, 0);
     border-radius: 8px;
@@ -133,6 +141,10 @@
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.pdfGetter-container #pdfViewer .errorMessage #errorClose svg {
+    margin: auto;
 }
 
 .pdfGetter-container #pdfViewer object {
